@@ -1,5 +1,8 @@
 ﻿using academico.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
+using System.Drawing;
+using System.Runtime.ConstrainedExecution;
 
 namespace academico.Controllers
 {
@@ -59,17 +62,16 @@ namespace academico.Controllers
         }
         public IActionResult Delete(long id)
         {
-            return View(instituicoes.Where(i => i.InstituicaoID == id).First());
+            return View(instituicoes.Where(i => i.InstituicaoID == id).FirstOrDefault());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-
         public ActionResult Delete(Instituicao instituicao)
-        {
-            instituicoes.Remove(instituicoes.Where(i => i.InstituicaoID == instituicao.InstituicaoID).First());
-            return RedirectToAction("Index");
+        {     
+            instituicoes.Remove(instituicoes.First(i => i.InstituicaoID == instituicao.InstituicaoID));
+
+            return RedirectToAction("index");
         }
     }
-
 }
